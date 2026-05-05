@@ -1,21 +1,21 @@
 package com.timbruyn.triviaservice.controller;
 
-import com.timbruyn.triviaservice.client.OpentdbClient;
-import com.timbruyn.triviaservice.model.opentdb.OpentdbResponse;
+import com.timbruyn.triviaservice.model.dto.QuestionDTO;
+import com.timbruyn.triviaservice.service.TriviaService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class TriviaController {
 
-    private final OpentdbClient opentdbClient;
+    private final TriviaService triviaService;
 
-    public TriviaController(OpentdbClient opentdbClient) {
-        this.opentdbClient = opentdbClient;
+    public TriviaController(TriviaService triviaService) {
+        this.triviaService = triviaService;
     }
 
     @GetMapping("/questions")
-    public OpentdbResponse getQuestions() {
-        return opentdbClient.fetchQuestions();
+    public QuestionDTO getQuestions() {
+        return triviaService.getQuestion();
     }
 }
