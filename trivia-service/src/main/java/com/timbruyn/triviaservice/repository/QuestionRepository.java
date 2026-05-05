@@ -22,4 +22,7 @@ public class QuestionRepository {
         return Optional.ofNullable(questions.get(id));
     }
 
+    public void deleteById(int id) {
+        questions.remove(id);
+    }
 }

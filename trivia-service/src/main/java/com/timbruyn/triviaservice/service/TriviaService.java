@@ -1,6 +1,7 @@
 package com.timbruyn.triviaservice.service;
 
 import com.timbruyn.triviaservice.client.OpentdbClient;
+import com.timbruyn.triviaservice.model.dto.AnswerDTO;
 import com.timbruyn.triviaservice.model.dto.QuestionDTO;
 import com.timbruyn.triviaservice.model.opentdb.OpentdbQuestion;
 import com.timbruyn.triviaservice.model.opentdb.OpentdbResponse;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 public class TriviaService {
@@ -41,5 +43,15 @@ public class TriviaService {
         questionDTO.setAnswers(answers);
 
         return questionDTO;
+    }
+
+    public boolean checkAnswer(AnswerDTO answer) {
+        OpentdbQuestion question = questionRepository.findById(answer.getQuestionId())
+                .orElseThrow(NoSuchElementException::new);
+
+        boolean answerIsCorrect = question.getCorrectAnswer().equals(answer.getAnswer());
+        if (answerIsCorrect) questionRepository.deleteById(answer.getQuestionId());
+
+        return answerIsCorrect;
     }
 }
