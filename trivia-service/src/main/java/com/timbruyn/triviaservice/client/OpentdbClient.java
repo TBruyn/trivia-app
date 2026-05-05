@@ -1,5 +1,6 @@
 package com.timbruyn.triviaservice.client;
 
+import com.timbruyn.triviaservice.model.OpentdbResponse;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
 
@@ -18,11 +19,11 @@ public class OpentdbClient {
         this.restClient = builder.baseUrl(BASE_URL).build();
     }
 
-    public String fetchQuestions() {
+    public OpentdbResponse fetchQuestions() {
         return fetchQuestions(DEFAULT_QUESTION_AMOUNT, DEFAULT_QUESTION_TYPE);
     }
 
-    public String fetchQuestions(int amount, String type) {
+    public OpentdbResponse fetchQuestions(int amount, String type) {
 
         return restClient.get()
                 .uri(uriBuilder -> uriBuilder
@@ -31,7 +32,7 @@ public class OpentdbClient {
                         .queryParam("type", type)
                         .build())
                 .retrieve()
-                .body(String.class);
+                .body(OpentdbResponse.class);
     }
 
 }
