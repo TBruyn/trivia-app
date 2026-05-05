@@ -1,6 +1,6 @@
 package com.timbruyn.triviaservice.client;
 
-import com.timbruyn.triviaservice.model.OpentdbResponse;
+import com.timbruyn.triviaservice.model.opentdb.OpentdbResponse;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
 

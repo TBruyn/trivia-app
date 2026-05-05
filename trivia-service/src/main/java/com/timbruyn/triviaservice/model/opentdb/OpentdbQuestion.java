@@ -1,4 +1,4 @@
-package com.timbruyn.triviaservice.model;
+package com.timbruyn.triviaservice.model.opentdb;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
