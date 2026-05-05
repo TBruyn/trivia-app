@@ -1,4 +1,4 @@
-package com.timbruyn.trivia_service;
+package com.timbruyn.triviaservice;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
