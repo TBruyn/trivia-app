@@ -11,7 +11,6 @@ public class OpentdbClient {
     private static final String QUESTIONS_PATH = "/api.php";
 
     private static final int DEFAULT_QUESTION_AMOUNT = 1;
-    private static final String DEFAULT_QUESTION_TYPE = "multiple";
 
     private final RestClient restClient;
 
@@ -20,16 +19,15 @@ public class OpentdbClient {
     }
 
     public OpentdbResponse fetchQuestions() {
-        return fetchQuestions(DEFAULT_QUESTION_AMOUNT, DEFAULT_QUESTION_TYPE);
+        return fetchQuestions(DEFAULT_QUESTION_AMOUNT);
     }
 
-    public OpentdbResponse fetchQuestions(int amount, String type) {
+    public OpentdbResponse fetchQuestions(int amount) {
 
         return restClient.get()
                 .uri(uriBuilder -> uriBuilder
                         .path(QUESTIONS_PATH)
                         .queryParam("amount", amount)
-                        .queryParam("type", type)
                         .build())
                 .retrieve()
                 .body(OpentdbResponse.class);
