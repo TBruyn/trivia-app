@@ -1,7 +1,8 @@
 package com.timbruyn.triviaservice.service;
 
 import com.timbruyn.triviaservice.client.OpentdbClient;
-import com.timbruyn.triviaservice.model.dto.AnswerDTO;
+import com.timbruyn.triviaservice.model.dto.CheckAnswerRequestDTO;
+import com.timbruyn.triviaservice.model.dto.CheckAnswerResponseDTO;
 import com.timbruyn.triviaservice.model.dto.QuestionDTO;
 import com.timbruyn.triviaservice.model.opentdb.OpentdbQuestion;
 import com.timbruyn.triviaservice.model.opentdb.OpentdbResponse;
@@ -45,13 +46,14 @@ public class TriviaService {
         return questionDTO;
     }
 
-    public boolean checkAnswer(AnswerDTO answer) {
+    public CheckAnswerResponseDTO checkAnswer(CheckAnswerRequestDTO answer) {
         OpentdbQuestion question = questionRepository.findById(answer.getQuestionId())
                 .orElseThrow(NoSuchElementException::new);
-
         boolean answerIsCorrect = question.getCorrectAnswer().equals(answer.getAnswer());
         if (answerIsCorrect) questionRepository.deleteById(answer.getQuestionId());
 
-        return answerIsCorrect;
+        CheckAnswerResponseDTO response = new CheckAnswerResponseDTO();
+        response.setAnswerWasCorrect(answerIsCorrect);
+        return response;
     }
 }
