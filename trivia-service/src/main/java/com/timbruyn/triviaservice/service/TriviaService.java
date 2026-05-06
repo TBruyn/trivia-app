@@ -9,15 +9,13 @@ import com.timbruyn.triviaservice.model.opentdb.OpentdbResponse;
 import com.timbruyn.triviaservice.repository.QuestionRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.NoSuchElementException;
+import java.util.*;
 
 @Service
 public class TriviaService {
     private final OpentdbClient opentdbClient;
     private final QuestionRepository questionRepository;
+    private final Queue<OpentdbQuestion> unusedQuestions = new LinkedList<>();
 
     public TriviaService(OpentdbClient opentdbClient, QuestionRepository questionRepository) {
         this.opentdbClient = opentdbClient;
@@ -25,12 +23,10 @@ public class TriviaService {
     }
 
     public QuestionDTO getQuestion() {
-        OpentdbResponse opentdbResponse = opentdbClient.fetchQuestions();
-
-        if (opentdbResponse.getResults().isEmpty()) {
-            throw new IllegalStateException("No questions returned from OpenTDB");
+        if (unusedQuestions.isEmpty()) {
+            fillUnusedQuestionsQueue();
         }
-        OpentdbQuestion opentdbQuestion = opentdbResponse.getResults().getFirst();
+        OpentdbQuestion opentdbQuestion = unusedQuestions.remove();
 
         int id = questionRepository.save(opentdbQuestion);
 
@@ -55,5 +51,15 @@ public class TriviaService {
         CheckAnswerResponseDTO response = new CheckAnswerResponseDTO();
         response.setAnswerWasCorrect(answerIsCorrect);
         return response;
+    }
+
+    private void fillUnusedQuestionsQueue() {
+        OpentdbResponse opentdbResponse = opentdbClient.fetchQuestions();
+
+        if (opentdbResponse.getResults().isEmpty()) {
+            throw new IllegalStateException("No questions returned from OpenTDB");
+        }
+
+        unusedQuestions.addAll(opentdbResponse.getResults());
     }
 }

@@ -10,7 +10,7 @@ public class OpentdbClient {
     private static final String BASE_URL = "https://opentdb.com";
     private static final String QUESTIONS_PATH = "/api.php";
 
-    private static final int DEFAULT_QUESTION_AMOUNT = 1;
+    private static final int DEFAULT_QUESTION_AMOUNT = 10;
 
     private final RestClient restClient;
 
