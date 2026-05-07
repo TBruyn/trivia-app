@@ -1,0 +1,16 @@
+services:
+  trivia-service:
+    build:
+      context: ./trivia-service
+    image: trivia-service
+    ports:
+      - "8080:8080"
+
+  trivia-client:
+    build:
+      context: ./trivia-client
+    image: trivia-client
+    ports:
+      - "5173:80"
+    depends_on:
+      - trivia-service
