@@ -49,7 +49,7 @@ public class TriviaService {
         if (answerIsCorrect) questionRepository.deleteById(answer.getQuestionId());
 
         CheckAnswerResponseDTO response = new CheckAnswerResponseDTO();
-        response.setAnswerWasCorrect(answerIsCorrect);
+        response.setCorrect(answerIsCorrect);
         return response;
     }
 

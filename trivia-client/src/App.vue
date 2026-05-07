@@ -30,7 +30,7 @@ async function checkAnswer(questionId, answer) {
   })
   const data = await response.json()
 
-  if (data.answerWasCorrect) {
+  if (data.correct) {
     answerWasCorrect.value = true
   } else {
     wrongAnswers.value.push(answer)

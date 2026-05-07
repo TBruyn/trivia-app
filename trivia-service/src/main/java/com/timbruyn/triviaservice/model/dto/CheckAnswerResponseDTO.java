@@ -4,6 +4,6 @@ import lombok.Data;
 
 @Data
 public class CheckAnswerResponseDTO {
-    private boolean answerWasCorrect;
+    private boolean correct;
 
 }
